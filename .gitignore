@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+.user-secrets.json
+*Output.json
+resource-usage.json
+environment-variables.json
+merged_devcontainer.json
+codespaceStatusTool.js
+.environmentConfigurationCompleted
