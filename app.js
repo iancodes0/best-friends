@@ -54,6 +54,7 @@ function toast(message) {
 function setTheme(theme) {
   document.body.dataset.theme = theme;
   localStorage.setItem("best-friends-theme", theme);
+  document.querySelector('meta[name="theme-color"]').setAttribute("content", theme === "dark" ? "#171514" : "#fffaf5");
   document.querySelectorAll("[data-theme-choice]").forEach((button) => button.classList.toggle("active", button.dataset.themeChoice === theme));
 }
 function setView(view) {
@@ -69,6 +70,11 @@ function setView(view) {
 
 $("#new-post-button").addEventListener("click", () => showModal("post-modal"));
 $("#mobile-new-post").addEventListener("click", () => showModal("post-modal"));
+$("#mobile-search-button").addEventListener("click", () => {
+  const search = $(".search");
+  search.classList.toggle("mobile-search-open");
+  if (search.classList.contains("mobile-search-open")) $("#search-input").focus();
+});
 $("#story-add").addEventListener("click", () => showModal("post-modal"));
 $("#profile-button").addEventListener("click", () => state.profile ? toast(`You're signed in as ${state.profile.username}`) : showModal("auth-modal"));
 document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => hideModal(button.dataset.close)));
@@ -98,7 +104,9 @@ $("#profile-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const first = $("#first-name").value.trim(); const last = $("#last-name").value.trim(); const username = $("#username").value.trim().replace(/^@/, "");
   state.profile = { name: `${first} ${last}`, username: `@${username}`, initials: initialsFor(`${first} ${last}`) };
-  localStorage.setItem("best-friends-profile", JSON.stringify(state.profile)); hideModal("profile-modal"); toast("Profile saved. Welcome to Best Friends!");
+  localStorage.setItem("best-friends-profile", JSON.stringify(state.profile));
+  $("#profile-button").textContent = state.profile.initials;
+  hideModal("profile-modal"); toast("Profile saved. Welcome to Best Friends!");
 });
 
 postsContainer.addEventListener("click", async (event) => {
@@ -127,3 +135,4 @@ document.querySelectorAll("[data-theme-choice]").forEach((button) => button.addE
 document.querySelectorAll(".follow-button").forEach((button) => button.addEventListener("click", () => { button.textContent = button.textContent === "Follow" ? "Following" : "Follow"; toast(button.textContent === "Following" ? "You're now following them." : "Unfollowed"); }));
 renderPosts();
 setTheme(savedTheme);
+if (state.profile) $("#profile-button").textContent = state.profile.initials;
