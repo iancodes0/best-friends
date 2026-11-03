@@ -1,10 +1,5 @@
-const seedPosts = [
-  { id: 1, name: "Alex Morgan", initials: "AM", avatar: "avatar-mint", time: "2h ago", image: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=900&q=85", caption: "There’s nowhere else I’d rather be on a Tuesday morning. 🌿", likes: 42, comments: [{ name: "Jamie", text: "This looks so peaceful!" }, { name: "Jordan", text: "Adding this to our weekend list." }] },
-  { id: 2, name: "Jordan Lee", initials: "JL", avatar: "avatar-peach", time: "5h ago", image: "https://images.unsplash.com/photo-1500534623283-312aade485b7?w=900&q=85", caption: "A little sunshine, a good book, and absolutely nowhere to be.", likes: 28, comments: [] }
-];
-
 const state = {
-  posts: JSON.parse(localStorage.getItem("best-friends-posts") || "null") || seedPosts,
+  posts: JSON.parse(localStorage.getItem("best-friends-posts") || "[]").filter((post) => ![1, 2].includes(post.id)),
   liked: JSON.parse(localStorage.getItem("best-friends-liked") || "{}"),
   saved: JSON.parse(localStorage.getItem("best-friends-saved") || "{}"),
   profile: JSON.parse(localStorage.getItem("best-friends-profile") || "null")
@@ -42,7 +37,7 @@ function renderPosts(posts = state.posts) {
         <form class="comment-form"><input name="comment" placeholder="Add a comment..." aria-label="Add a comment" /><button type="submit">Post</button></form>
       </div>
     </article>
-  `).join("") : `<div class="empty-state"><h3>No saved moments yet</h3><p>Tap the star on a post to keep it close.</p></div>`;
+  `).join("") : `<div class="empty-state"><h3>No moments yet</h3><p>Be the first to share something with your friends.</p><button class="primary-button empty-post-button" id="empty-post-button">Share your first post</button></div>`;
 }
 
 function showModal(id) { $(`#${id}`).classList.remove("hidden"); }
@@ -136,3 +131,6 @@ document.querySelectorAll(".follow-button").forEach((button) => button.addEventL
 renderPosts();
 setTheme(savedTheme);
 if (state.profile) $("#profile-button").textContent = state.profile.initials;
+document.addEventListener("click", (event) => {
+  if (event.target.id === "empty-post-button") showModal("post-modal");
+});
