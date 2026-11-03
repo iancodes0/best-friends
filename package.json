@@ -1,0 +1,10 @@
+{
+  "name": "best-friends",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Best Friends — a warm, photo-first social space.",
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve ."
+  }
+}

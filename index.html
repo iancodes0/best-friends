@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fffaf5" />
+    <title>Best Friends — little moments, shared</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Best Friends home">
+          <span class="brand-mark">✦</span>
+          <span>best friends</span>
+        </a>
+        <label class="search" for="search-input">
+          <span>⌕</span>
+          <input id="search-input" type="search" placeholder="Search friends or moments" />
+        </label>
+        <div class="top-actions">
+          <button class="icon-button mobile-search" aria-label="Search">⌕</button>
+          <button class="avatar avatar-small" id="profile-button" aria-label="Open profile">JS</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="sidebar">
+          <nav class="main-nav" aria-label="Main navigation">
+            <button class="nav-item active" data-view="home"><span>⌂</span> Home</button>
+            <button class="nav-item" data-view="discover"><span>◎</span> Discover</button>
+            <button class="nav-item" data-view="saved"><span>♡</span> Saved</button>
+          </nav>
+          <div class="sidebar-divider"></div>
+          <div class="sidebar-heading"><span>Your circle</span><button class="text-button">See all</button></div>
+          <div class="friend-list">
+            <div class="friend"><span class="avatar avatar-mint">AM</span><span><b>Alex Morgan</b><small>Active now</small></span><i></i></div>
+            <div class="friend"><span class="avatar avatar-peach">JL</span><span><b>Jordan Lee</b><small>Active now</small></span><i></i></div>
+            <div class="friend"><span class="avatar avatar-lilac">SR</span><span><b>Sam Rivera</b><small>2h ago</small></span></div>
+            <div class="friend"><span class="avatar avatar-yellow">TK</span><span><b>Taylor Kim</b><small>5h ago</small></span></div>
+          </div>
+          <div class="sidebar-footer"><span>Made for the little moments</span><span>♥</span></div>
+        </aside>
+
+        <section class="feed-column">
+          <div class="feed-header">
+            <div>
+              <p class="eyebrow">Tuesday, November 3</p>
+              <h1>Good morning, Jamie <span>☀</span></h1>
+              <p class="subtitle">Keep up with the people who make life sweet.</p>
+            </div>
+            <button class="primary-button" id="new-post-button"><span>＋</span> New post</button>
+          </div>
+          <div class="stories" aria-label="Stories">
+            <button class="story add-story" id="story-add"><span class="story-avatar">＋</span><small>Your story</small></button>
+            <button class="story"><span class="story-avatar story-photo photo-one"></span><small>Alex</small></button>
+            <button class="story"><span class="story-avatar story-photo photo-two"></span><small>Jordan</small></button>
+            <button class="story"><span class="story-avatar story-photo photo-three"></span><small>Sam</small></button>
+            <button class="story"><span class="story-avatar story-photo photo-four"></span><small>Taylor</small></button>
+            <button class="story"><span class="story-avatar story-photo photo-five"></span><small>Morgan</small></button>
+          </div>
+          <div class="feed-tabs"><button class="feed-tab active">For you</button><button class="feed-tab">Following</button><span class="tab-line"></span></div>
+          <div id="posts-container"></div>
+        </section>
+
+        <aside class="right-rail">
+          <div class="rail-card week-card">
+            <div class="rail-card-title"><span>✦</span><b>Moment of the week</b></div>
+            <div class="week-photo"></div>
+            <p class="week-quote">“The best things in life are the people we share them with.”</p>
+            <small>— Unknown</small>
+          </div>
+          <div class="rail-card suggestions-card">
+            <div class="rail-card-title"><b>People you may know</b><button class="text-button">See all</button></div>
+            <div class="suggestion"><span class="avatar avatar-blue">EC</span><span><b>Emery Cole</b><small>8 mutual friends</small></span><button class="follow-button">Follow</button></div>
+            <div class="suggestion"><span class="avatar avatar-rose">NB</span><span><b>Naomi Brooks</b><small>5 mutual friends</small></span><button class="follow-button">Follow</button></div>
+            <div class="suggestion"><span class="avatar avatar-green">MC</span><span><b>Max Chen</b><small>3 mutual friends</small></span><button class="follow-button">Follow</button></div>
+          </div>
+          <p class="legal">© 2024 Best Friends  ·  About  ·  Community guidelines</p>
+        </aside>
+      </main>
+    </div>
+
+    <div class="modal-backdrop hidden" id="post-modal">
+      <div class="modal post-modal" role="dialog" aria-modal="true" aria-labelledby="post-modal-title">
+        <button class="close-button" data-close="post-modal" aria-label="Close">×</button>
+        <p class="eyebrow">Share a little joy</p>
+        <h2 id="post-modal-title">Create a new post</h2>
+        <form id="post-form">
+          <label class="upload-box" for="post-image">
+            <span class="upload-icon">▧</span><strong id="upload-label">Choose a photo</strong><small>JPG, PNG or WEBP · up to 10 MB</small>
+            <input id="post-image" type="file" accept="image/*" />
+          </label>
+          <label class="field-label" for="post-caption">Caption <span>optional</span></label>
+          <textarea id="post-caption" rows="3" placeholder="What are you feeling?"></textarea>
+          <button class="primary-button full-width" type="submit">Share post</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="auth-modal">
+      <div class="modal auth-modal" role="dialog" aria-modal="true">
+        <button class="close-button" data-close="auth-modal" aria-label="Close">×</button>
+        <div class="auth-logo">✦</div><p class="eyebrow">Welcome to your happy place</p><h2>Join your best people.</h2>
+        <p class="modal-copy">Create an account to share the moments that matter.</p>
+        <form id="auth-form">
+          <label class="field-label" for="auth-email">Email address</label><input class="text-input" id="auth-email" type="email" placeholder="you@example.com" required />
+          <label class="field-label" for="auth-password">Password</label><input class="text-input" id="auth-password" type="password" placeholder="At least 8 characters" minlength="8" required />
+          <button class="primary-button full-width" type="submit">Create account</button>
+        </form>
+        <p class="auth-switch">Already have an account? <button class="text-button" id="login-switch">Log in</button></p>
+      </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="profile-modal">
+      <div class="modal profile-modal" role="dialog" aria-modal="true">
+        <button class="close-button" data-close="profile-modal" aria-label="Close">×</button>
+        <p class="eyebrow">Make it yours</p><h2>Set up your profile</h2><p class="modal-copy">A few details so your friends know it’s you.</p>
+        <form id="profile-form">
+          <label class="profile-upload" for="profile-image"><span class="avatar avatar-large" id="profile-preview">JS</span><span><b>Add a profile photo</b><small>Tap to upload a picture</small></span><input id="profile-image" type="file" accept="image/*" /></label>
+          <div class="form-row"><div><label class="field-label" for="first-name">First name</label><input class="text-input" id="first-name" required placeholder="Jamie" /></div><div><label class="field-label" for="last-name">Last name</label><input class="text-input" id="last-name" required placeholder="Smith" /></div></div>
+          <label class="field-label" for="username">Username</label><input class="text-input" id="username" required placeholder="@jamiesmith" />
+          <button class="primary-button full-width" type="submit">Save my profile</button>
+        </form>
+      </div>
+    </div>
+    <div class="toast hidden" id="toast"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
