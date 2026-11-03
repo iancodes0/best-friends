@@ -33,6 +33,7 @@
             <button class="nav-item active" data-view="home"><span>⌂</span> Home</button>
             <button class="nav-item" data-view="discover"><span>◎</span> Discover</button>
             <button class="nav-item" data-view="saved"><span>♡</span> Saved</button>
+            <button class="nav-item" data-view="settings"><span>⚙</span> Settings</button>
           </nav>
           <div class="sidebar-divider"></div>
           <div class="sidebar-heading"><span>Your circle</span><button class="text-button">See all</button></div>
@@ -64,6 +65,17 @@
           </div>
           <div class="feed-tabs"><button class="feed-tab active">For you</button><button class="feed-tab">Following</button><span class="tab-line"></span></div>
           <div id="posts-container"></div>
+          <section class="settings-panel hidden" id="settings-panel">
+            <p class="eyebrow">Your preferences</p>
+            <h2>Settings</h2>
+            <div class="setting-row">
+              <span><b>Theme</b><small>Choose how Best Friends looks for you.</small></span>
+              <div class="theme-switch" role="group" aria-label="Theme">
+                <button class="theme-option active" data-theme-choice="light">☼ Light</button>
+                <button class="theme-option" data-theme-choice="dark">☾ Dark</button>
+              </div>
+            </div>
+          </section>
         </section>
 
         <aside class="right-rail">
@@ -82,6 +94,13 @@
           <p class="legal">© 2024 Best Friends  ·  About  ·  Community guidelines</p>
         </aside>
       </main>
+      <nav class="mobile-nav" aria-label="Mobile navigation">
+        <button class="mobile-nav-item active" data-view="home"><span>⌂</span>Home</button>
+        <button class="mobile-nav-item" data-view="discover"><span>◎</span>Discover</button>
+        <button class="mobile-new-post" id="mobile-new-post" aria-label="New post">＋</button>
+        <button class="mobile-nav-item" data-view="saved"><span>♡</span>Saved</button>
+        <button class="mobile-nav-item" data-view="settings"><span>⚙</span>Settings</button>
+      </nav>
     </div>
 
     <div class="modal-backdrop hidden" id="post-modal">

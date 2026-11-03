@@ -9,6 +9,7 @@ const state = {
   saved: JSON.parse(localStorage.getItem("best-friends-saved") || "{}"),
   profile: JSON.parse(localStorage.getItem("best-friends-profile") || "null")
 };
+const savedTheme = localStorage.getItem("best-friends-theme") || "light";
 
 const $ = (selector) => document.querySelector(selector);
 const postsContainer = $("#posts-container");
@@ -50,8 +51,24 @@ function toast(message) {
   const element = $("#toast"); element.textContent = message; element.classList.remove("hidden");
   setTimeout(() => element.classList.add("hidden"), 2400);
 }
+function setTheme(theme) {
+  document.body.dataset.theme = theme;
+  localStorage.setItem("best-friends-theme", theme);
+  document.querySelectorAll("[data-theme-choice]").forEach((button) => button.classList.toggle("active", button.dataset.themeChoice === theme));
+}
+function setView(view) {
+  const isSettings = view === "settings";
+  document.querySelectorAll(".nav-item, .mobile-nav-item").forEach((item) => item.classList.toggle("active", item.dataset.view === view));
+  $("#settings-panel").classList.toggle("hidden", !isSettings);
+  postsContainer.classList.toggle("hidden", isSettings);
+  $(".feed-header").classList.toggle("hidden", isSettings);
+  $(".stories").classList.toggle("hidden", isSettings);
+  $(".feed-tabs").classList.toggle("hidden", isSettings);
+  if (!isSettings) renderPosts(view === "saved" ? state.posts.filter((post) => state.saved[post.id]) : state.posts);
+}
 
 $("#new-post-button").addEventListener("click", () => showModal("post-modal"));
+$("#mobile-new-post").addEventListener("click", () => showModal("post-modal"));
 $("#story-add").addEventListener("click", () => showModal("post-modal"));
 $("#profile-button").addEventListener("click", () => state.profile ? toast(`You're signed in as ${state.profile.username}`) : showModal("auth-modal"));
 document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => hideModal(button.dataset.close)));
@@ -105,10 +122,8 @@ $("#search-input").addEventListener("input", (event) => {
   const query = event.target.value.toLowerCase().trim();
   renderPosts(state.posts.filter((post) => `${post.name} ${post.caption}`.toLowerCase().includes(query)));
 });
-document.querySelectorAll(".nav-item").forEach((item) => item.addEventListener("click", () => {
-  document.querySelectorAll(".nav-item").forEach((nav) => nav.classList.remove("active")); item.classList.add("active");
-  if (item.dataset.view === "saved") renderPosts(state.posts.filter((post) => state.saved[post.id]));
-  else renderPosts();
-}));
+document.querySelectorAll(".nav-item, .mobile-nav-item").forEach((item) => item.addEventListener("click", () => setView(item.dataset.view)));
+document.querySelectorAll("[data-theme-choice]").forEach((button) => button.addEventListener("click", () => setTheme(button.dataset.themeChoice)));
 document.querySelectorAll(".follow-button").forEach((button) => button.addEventListener("click", () => { button.textContent = button.textContent === "Follow" ? "Following" : "Follow"; toast(button.textContent === "Following" ? "You're now following them." : "Unfollowed"); }));
 renderPosts();
+setTheme(savedTheme);
